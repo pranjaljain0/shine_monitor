@@ -47,7 +47,7 @@ Before getting the data, you need to fill in the following fields:
 
 ### How to Get the Company ID
 
-1. Open your web browser and log in to your Shine Monitor account.
+1. Open your web browser and go to your Shine Monitor login page.
 2. Open the developer tools (usually by pressing `F12` or `Ctrl+Shift+I`).
 3. Go to the "Network" tab.
 4. Log in to your Shine Monitor account.
