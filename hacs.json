@@ -1,0 +1,6 @@
+{
+    "name": "Shine Monitor",
+    "content_in_root": false,
+    "homeassistant": "2021.1.5",
+    "hacs": "1.0.0"
+}
