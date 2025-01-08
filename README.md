@@ -35,6 +35,23 @@ Shine Monitor integration for Home Assistant. This integration allows you to mon
 2. Click on "Add Integration" and search for "Shine Monitor".
 3. Follow the setup instructions to authenticate and select your plant.
 
+## Required Fields
+
+Before getting the data, you need to fill in the following fields:
+
+- `username`: Your Shine Monitor username.
+- `password`: Your Shine Monitor password.
+- `company_id`: Your company ID.
+
+### How to Get the Company ID
+
+1. Open your web browser and log in to your Shine Monitor account.
+2. Open the developer tools (usually by pressing `F12` or `Ctrl+Shift+I`).
+3. Go to the "Network" tab.
+4. Log in to your Shine Monitor account.
+5. Look for the authentication request sent to `*.shinemonitor.com`.
+6. The `company_id` will be included in the authentication request.
+
 ## Support
 
 For any issues or feature requests, please open an issue on the [GitHub repository](https://github.com/pranjaljain0/shine_monitor/issues).
