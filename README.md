@@ -1,6 +1,8 @@
 # Shine Monitor
 
-Shine Monitor integration for Home Assistant. This integration allows you to monitor your solar power production and environmental impact using Shine Monitor.
+<img src="custom_components/shine_monitor/logo.png" alt="Shine Monitor Logo" width="200"/>
+
+Shine Monitor integration for Home Assistant. This integration allows you to monitor your solar power productiona and environmental impact using Shine Monitor.
 
 ## Features
 
@@ -17,7 +19,7 @@ Shine Monitor integration for Home Assistant. This integration allows you to mon
 
 1. Download the `shine_monitor` folder from this repository.
 2. Copy the `shine_monitor` folder to your Home Assistant's `custom_components` directory.
-3. Restart Home Assistant.
+3. Restart Home Assistant.d
 
 ### HACS Installation
 
@@ -54,10 +56,10 @@ Before getting the data, you need to fill in the following fields:
 
 ## Screenshots
 
-![Screenshot 1](screenshots/1.png)
-![Screenshot 2](screenshots/2.png)
-![Screenshot 3](screenshots/3.png)
-![Screenshot 4](screenshots/4.png)
+<img src="screenshots/1.png" alt="Screenshot 1" width="400"/>
+<img src="screenshots/2.png" alt="Screenshot 2" width="400"/>
+<img src="screenshots/3.png" alt="Screenshot 3" width="400"/>
+<img src="screenshots/4.png" alt="Screenshot 4" width="400"/>
 
 ## Support
 
