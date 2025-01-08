@@ -52,6 +52,13 @@ Before getting the data, you need to fill in the following fields:
 5. Look for the authentication request sent to `*.shinemonitor.com`.
 6. The `company_id` will be included in the authentication request.
 
+## Screenshots
+
+![Screenshot 1](screenshots/1.png)
+![Screenshot 2](screenshots/2.png)
+![Screenshot 3](screenshots/3.png)
+![Screenshot 4](screenshots/4.png)
+
 ## Support
 
 For any issues or feature requests, please open an issue on the [GitHub repository](https://github.com/pranjaljain0/shine_monitor/issues).
