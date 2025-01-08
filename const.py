@@ -1,0 +1,1 @@
+DOMAIN = "shine_monitor"

@@ -1,0 +1,16 @@
+{
+    "domain": "shine_monitor",
+    "name": "Shine Monitor",
+    "version": "1.0.0",
+    "documentation": "https://github.com/pranjaljain0/shine_monitor",
+    "requirements": [
+        "aiohttp"
+    ],
+    "dependencies": [],
+    "codeowners": [
+        "@pranjaljain0"
+    ],
+    "iot_class": "cloud_polling",
+    "homeassistant": "2023.1.0",
+    "config_flow": true
+}
