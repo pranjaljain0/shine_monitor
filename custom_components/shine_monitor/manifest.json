@@ -12,5 +12,6 @@
     ],
     "iot_class": "cloud_polling",
     "homeassistant": "2023.1.0",
-    "config_flow": true
+    "config_flow": true,
+    "logo": "custom_components/shine_monitor/logo.png"
 }
