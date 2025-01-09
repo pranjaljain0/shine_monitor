@@ -9,6 +9,7 @@ from .const import DOMAIN
 _LOGGER = logging.getLogger(__name__)
 
 UPDATE_INTERVAL = timedelta(minutes=5)
+REAUTH_INTERVAL = timedelta(hours=24)
 
 
 class ShineMonitorDataUpdateCoordinator(DataUpdateCoordinator):
@@ -22,22 +23,62 @@ class ShineMonitorDataUpdateCoordinator(DataUpdateCoordinator):
         self.plant_id = plant_id
         self.token = token
         self.secret = secret
+        self.last_reauth = time.time()
         super().__init__(hass, _LOGGER, name=DOMAIN, update_interval=UPDATE_INTERVAL)
 
     async def _async_update_data(self):
         """Fetch data from the Shine Monitor API."""
-        current_power = await self._fetch_current_power()
-        total_power = await self._fetch_total_power()
-        profit_data = await self._fetch_profit_data()
+        current_time = time.time()
+        if current_time - self.last_reauth >= REAUTH_INTERVAL.total_seconds():
+            await self._reauthenticate()
 
-        return {
-            "current_power": current_power,
-            "total_energy": total_power,
-            "profit": profit_data.get("profit", 0),
-            "coal": profit_data.get("coal", 0),
-            "co2": profit_data.get("co2", 0),
-            "so2": profit_data.get("so2", 0),
-        }
+        try:
+            current_power = await self._fetch_current_power()
+            total_power = await self._fetch_total_power()
+            profit_data = await self._fetch_profit_data()
+
+            return {
+                "current_power": current_power,
+                "total_energy": total_power,
+                "profit": profit_data.get("profit", 0),
+                "coal": profit_data.get("coal", 0),
+                "co2": profit_data.get("co2", 0),
+                "so2": profit_data.get("so2", 0),
+            }
+        except UpdateFailed as err:
+            if "ERR_NO_AUTH" in str(err):
+                await self._reauthenticate()
+                return await self._async_update_data()
+            raise err
+
+    async def _reauthenticate(self):
+        """Re-authenticate and update token and secret."""
+        salt = str(int(time.time() * 1000))
+        hashed_password = hashlib.sha1(self.password.encode("utf-8")).hexdigest()
+        auth_action = f"&action=auth&usr={self.username}&company-key={self.company_key}"
+        auth_sign_string = salt + hashed_password + auth_action
+        auth_sign = hashlib.sha1(auth_sign_string.encode("utf-8")).hexdigest()
+        auth_url = f"http://api.shinemonitor.com/public/?sign={auth_sign}&salt={salt}{auth_action}"
+
+        async with aiohttp.ClientSession() as session:
+            try:
+                response = await session.get(auth_url)
+                if response.status == 200:
+                    data = await response.json()
+                    if data.get("err") == 0:
+                        self.token = data["dat"]["token"]
+                        self.secret = data["dat"]["secret"]
+                        self.last_reauth = time.time()
+                    else:
+                        raise UpdateFailed(
+                            f"Re-authentication failed: {data.get('desc')}"
+                        )
+                else:
+                    raise UpdateFailed(
+                        f"Re-authentication request failed with status {response.status}"
+                    )
+            except Exception as e:
+                raise UpdateFailed(f"Error during re-authentication: {str(e)}")
 
     async def _fetch_current_power(self):
         """Fetch the current active output power from the Shine Monitor API."""
