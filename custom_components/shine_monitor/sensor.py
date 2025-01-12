@@ -11,6 +11,7 @@ from homeassistant.const import (
 )
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from .const import DOMAIN
+from homeassistant.util import dt as dt_util
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -48,6 +49,24 @@ class ProfitSensor(CoordinatorEntity, SensorEntity):
         if self.coordinator.data is None:
             return None
         return self.coordinator.data.get("profit")
+
+
+class LastUpdatedSensor(CoordinatorEntity, SensorEntity):
+    """Representation of the last updated date/time sensor."""
+
+    def __init__(self, coordinator):
+        """Initialize the sensor."""
+        super().__init__(coordinator)
+        self._attr_name = "Last Updated"
+        self._attr_unique_id = f"{coordinator.plant_id}_last_updated"
+        self._attr_device_class = SensorDeviceClass.TIMESTAMP
+
+    @property
+    def state(self):
+        """Return the state of the sensor."""
+        if self.coordinator.data is None:
+            return None
+        return dt_util.now().isoformat()
 
 
 class CoalSavingSensor(CoordinatorEntity, SensorEntity):

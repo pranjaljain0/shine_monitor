@@ -4,6 +4,7 @@ import hashlib
 import time
 from datetime import timedelta
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
+from homeassistant.util import dt as dt_util
 from .const import DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
@@ -44,6 +45,7 @@ class ShineMonitorDataUpdateCoordinator(DataUpdateCoordinator):
                 "coal": profit_data.get("coal", 0),
                 "co2": profit_data.get("co2", 0),
                 "so2": profit_data.get("so2", 0),
+                "last_updated": dt_util.now().isoformat(),
             }
         except UpdateFailed as err:
             if "ERR_NO_AUTH" in str(err):
